@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
+// import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class ScoreFileSupport {
 
         try{
             // System.out.println("AAA " + write);
-            FileWriter fileWriter = new FileWriter("MittProsjekt\\scores.txt");
+            FileWriter fileWriter = new FileWriter("src\\main\\resources\\MittProsjekt\\scores.txt");
             fileWriter.write(write);
             fileWriter.close();
         } catch (IOException e){
@@ -35,7 +35,7 @@ public class ScoreFileSupport {
     public HashMap<String, List<Double>> getScoreMap(){
         HashMap<String, List<Double>> retur = new HashMap<>();
         try{
-            String linje = Files.readString(new File("MittProsjekt\\scores.txt").toPath());
+            String linje = Files.readString(new File("src\\main\\resources\\MittProsjekt\\scores.txt").toPath());
             System.out.println(linje);
             for (String v : linje.split("\r\n\r\n")){
                 List<Double> l = new ArrayList<>();
@@ -54,13 +54,24 @@ public class ScoreFileSupport {
         return null;
     }
 
-    public void writeFile(String text){
-        try{
-            FileWriter fileWriter = new FileWriter("MittProsjekt\\scores.txt");
-            fileWriter.write(text);
-            fileWriter.close();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
+    // public void writeFile(String text){
+    //     try{
+    //         FileWriter fileWriter = new FileWriter("src\\main\\resources\\MittProsjekt\\scores.txt");
+    //         fileWriter.write(text);
+    //         fileWriter.close();
+    //     } catch (IOException e){
+    //         e.printStackTrace();
+    //     }
+    // }
+
+    // public String getText(){
+    //     try{
+    //         String linje = Files.readString(new File("src\\main\\resources\\MittProsjekt\\scores.txt").toPath());
+    //         return linje;
+    //     }
+    //     catch (IOException e){
+    //         e.printStackTrace();
+    //     }
+    //     return null;
+    // }
 }
