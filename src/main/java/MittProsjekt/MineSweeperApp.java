@@ -19,7 +19,7 @@ public class MineSweeperApp extends Application{
     @Override
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Example App");
-        primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("MittApp.fxml"))));
+        primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("App.fxml"))));
         primaryStage.show();
     }
 
