@@ -1,0 +1,9 @@
+Middels:
+
+Lett:
+0.2
+9.49
+10.04
+
+Vanskelig:
+196.04
