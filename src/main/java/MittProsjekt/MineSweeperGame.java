@@ -27,14 +27,16 @@ public class MineSweeperGame {
     List<Pair<Integer, Integer>> bomber;
     ObservableList<Node> tiles;
     int antallBomber;
-    
 
-    public MineSweeperGame(MineSweeperController controller, int x, int y, int antallBomber){
+    Scoreboard scoreboard = new Scoreboard();
+
+    public MineSweeperGame(MineSweeperController controller, int x, int y, int antallBomber, String vanskelighetsgrad){
         this.controller = controller;
         grid = new Tile[y][x];
         tileGenerator.setGrid(grid);
         tiles = tileGenerator.makeTiles(x, y, e->clickEvent(e));
         this.antallBomber = antallBomber;
+        this.vanskelighetsgrad = vanskelighetsgrad;
     }
 
     public ObservableList<Node> getTiles(){
@@ -74,7 +76,8 @@ public class MineSweeperGame {
     }
 
     public void click(int x, int y){
-        
+        sjekkSeier();
+        if (!spill){ return;}
         if (!startet){
             bomber = tileGenerator.getBombePos(x, y, antallBomber);
             startTid = System.nanoTime();
@@ -84,8 +87,7 @@ public class MineSweeperGame {
             controller.setStartTid(startTid);
             // timer.start();
         }
-        if (!spill){return;}
-        sjekkSeier();
+        
         if (grid[y][x].isMarked() || grid[y][x].isOpen()){
             return;
         }
@@ -118,7 +120,7 @@ public class MineSweeperGame {
     }
 
     public void sjekkSeier(){
-        if (bomber.size() + aapneRuter == grid.length*grid[0].length){
+        if (antallBomber + aapneRuter == grid.length*grid[0].length && spill){
             System.out.println("du vant");
             seier();
         }
@@ -126,6 +128,7 @@ public class MineSweeperGame {
 
     public void seier(){
         spill = false;
+        scoreboard.newTime(vanskelighetsgrad, controller.getTime());
         controller.seier();
         controller.stopTimer();
     }
