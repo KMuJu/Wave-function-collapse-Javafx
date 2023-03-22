@@ -2,6 +2,7 @@ package MittProsjekt;
 
 
 import java.util.HashMap;
+import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
@@ -26,6 +27,7 @@ public class MineSweeperController {
     // private final ScoreFileSupport fileSupport = new ScoreFileSupport();
     // TileGenerator tileGenerator = new TileGenerator();
     UIGenerator uiGenerator = new UIGenerator();
+    ScoreFileSupport fileSupport = new ScoreFileSupport();
     UiController uiController;
     MineSweeperGame game;
     ComboBox<String> dropDown;
@@ -33,6 +35,8 @@ public class MineSweeperController {
     AnimationTimer timer;
     long elapsed;
     long startTid;
+
+    List<Double> score;
 
     @SuppressWarnings("unchecked")
     @FXML
@@ -51,14 +55,14 @@ public class MineSweeperController {
             }
         };
 
-        raderForVanskelighet.put("Lett", new Integer[]{10,10, 3});
+        raderForVanskelighet.put("Lett", new Integer[]{10,10, 10});
         raderForVanskelighet.put("Middels", new Integer[]{15,15, 40});
         raderForVanskelighet.put("Vanskelig", new Integer[]{20,20, 75});
+        //mye casting og get children for å få riktig klasse og så tiden
         dropDown = (ComboBox<String>) ( (HBox) ( (VBox) bane.getChildren().get(0) ).getChildren().get(1) ).getChildren().get(0);
     }
     
     public void startSpill(){
-        //mye casting og get children for å få riktig klasse og så tiden
         vanskelighetsgrad = dropDown.getValue();
         topp.getChildren().clear();
         elapsed = 0;
@@ -66,7 +70,9 @@ public class MineSweeperController {
         int kolonner = raderForVanskelighet.get(vanskelighetsgrad)[0];
         int rader = raderForVanskelighet.get(vanskelighetsgrad)[1];
         int antallBomber = raderForVanskelighet.get(vanskelighetsgrad)[2];
-        game = new MineSweeperGame(this, rader, kolonner, antallBomber);
+
+        game = new MineSweeperGame(this, rader, kolonner, antallBomber, vanskelighetsgrad);
+
         uiController.oppdaterView(game.getTiles());
         topp.getChildren().addAll(uiGenerator.spillTopp(e->tilbake(), e->startSpill()));
 
@@ -91,7 +97,8 @@ public class MineSweeperController {
     }
 
     public void seier(){
-        bane.getChildren().add(uiGenerator.seierOverlay(e->startSpill(), Double.toString(getTime())));
+
+        bane.getChildren().add(uiGenerator.seierOverlay(e->startSpill(), Double.toString(getTime()), fileSupport.getScoreMap().get(vanskelighetsgrad)));
     }
 
     public void setStartTid(long t){
