@@ -36,7 +36,7 @@ public class ScoreFileSupport {
         HashMap<String, List<Double>> retur = new HashMap<>();
         try{
             String linje = Files.readString(new File("src\\main\\resources\\MittProsjekt\\scores.txt").toPath());
-            System.out.println(linje);
+            // System.out.println(linje);
             for (String v : linje.split("\r\n\r\n")){
                 List<Double> l = new ArrayList<>();
                 for (int i = 1; i<v.split("\n").length; i++){
