@@ -82,7 +82,7 @@ public class UIGenerator {
         return FXCollections.observableList(l);
     }
 
-    public StackPane seierOverlay(EventHandler<MouseEvent> e, String tid){
+    public StackPane seierOverlay(EventHandler<MouseEvent> e, String tid, List<Double> score){
         StackPane overLap = new StackPane();
         overLap.setPrefSize(400, 400);
         overLap.relocate(100, 100);
@@ -107,12 +107,12 @@ public class UIGenerator {
 
         fill.getChildren().addAll(tittel, hvorLangTid);
 
-        // for (Double i : score){
-        //     Text t = new Text(Double.toString(i) + "s");
-        //     t.setFont(Font.font("Verdana", FontWeight.BOLD, 32));
-        //     VBox.setMargin(t, new Insets(5));
-        //     fill.getChildren().add(t);
-        // }
+        for (Double i : score){
+            Text t = new Text(Double.toString(i) + "s");
+            t.setFont(Font.font("Verdana", FontWeight.BOLD, 32));
+            VBox.setMargin(t, new Insets(5));
+            fill.getChildren().add(t);
+        }
 
         fill.getChildren().addAll(provPaaNyttKnapp);
 
