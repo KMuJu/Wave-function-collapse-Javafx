@@ -17,7 +17,7 @@ public class OthelloApp extends Application{
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        
+        primaryStage.setResizable(false);
         primaryStage.setTitle("Othello");
         primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("App.fxml"))));
         primaryStage.show();
