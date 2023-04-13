@@ -20,20 +20,24 @@ public class TileController {
     CanvasController canvasController;
     Random rand = new Random();
     Cicruit circuit = new Cicruit();
+    private int w;
+    private int h;
+    private int n;
     
     // Long time = System.nanoTime();
 
-    TileController(CanvasController canvasController, int TILESIZE){
+    TileController(CanvasController canvasController, int w, int h){
         this.canvasController = canvasController;
-        grid = new Cell[600/TILESIZE][1000/TILESIZE];
-        this.TILESIZE = TILESIZE;
+        grid = new Cell[h][w];
+        this.h = h;
+        this.w = w;
 
         circuit();
         // System.out.println(tiles);
         
         
-        for (int i = 0; i<600/TILESIZE; i++){
-            for (int j = 0; j<1000/TILESIZE; j++){
+        for (int i = 0; i<h; i++){
+            for (int j = 0; j<w; j++){
                 grid[i][j] = new Cell(j, i, tiles);
             }
         }
@@ -75,7 +79,7 @@ public class TileController {
     public void basicTiles(){
         Tile rett = new Tile(new Image(getClass().getResource("rett.png").toString()), new ArrayList<>(Arrays.asList("EEE", "EAE", "EEE", "EAE")),      100000,     4);
         Tile corner = new Tile(new Image(getClass().getResource("corner.png").toString()), new ArrayList<>(Arrays.asList("EAE", "EEE", "EEE", "EAE")),  100000,     4);
-        Tile kryss = new Tile(new Image(getClass().getResource("kryss.png").toString()), new ArrayList<>(Arrays.asList("EAE", "EAE", "EAE", "EAE")),    0 ,         4);
+        Tile kryss = new Tile(new Image(getClass().getResource("kryss.png").toString()), new ArrayList<>(Arrays.asList("EAE", "EAE", "EAE", "EAE")),    100 ,         4);
         Tile tee = new Tile(new Image(getClass().getResource("tee.png").toString()), new ArrayList<>(Arrays.asList("EEE", "EAE", "EAE", "EAE")),        0 ,         4);
         Tile ende = new Tile(new Image(getClass().getResource("ende.png").toString()), new ArrayList<>(Arrays.asList("EEE", "EEE", "EEE", "EAE")),      0 ,         4);
         
@@ -97,8 +101,8 @@ public class TileController {
     }
     
     public boolean restart(){
-        for (int i = 0; i<600/TILESIZE; i++){
-            for (int j = 0; j<1000/TILESIZE; j++){
+        for (int i = 0; i<h; i++){
+            for (int j = 0; j<w; j++){
                 grid[i][j] = new Cell(j, i, tiles);
                 // grid[i][j].setT(tiles.get(rand.nextInt(tiles.size())));
             }
@@ -113,10 +117,14 @@ public class TileController {
     }
     
     public boolean start(){
-        for (int i = 0; i<grid.length*grid[0].length; i++){
-            // if (i%100==0) System.out.println(i);
+        n = 0;
+        while (n < grid.length*grid[0].length){
             if (!run()) return false;
         }
+        // for (int i = 0; i<grid.length*grid[0].length; i++){
+        //     // if (i%100==0) System.out.println(i);
+        //     if (!run()) return false;
+        // }
         // draw();
         return true;
         // draw();
@@ -158,6 +166,7 @@ public class TileController {
     private void endreCelle(Cell cell){
         try {
             cell.setT(getRandomTile(cell.getStates()));
+            n++;
         } catch (Exception e) {
             // throw new IllegalArgumentException("AA");
             // System.out.println(rute.getX() + ", " + rute.getY() + ", " + rute.getStates());
@@ -168,10 +177,10 @@ public class TileController {
 
     private void endreNaboer(Cell cell){
         if (cell.isCollapsed()) return;
-        // if (cell.getNumStates()==1){
-        //     endreCelle(cell);
-        //     if (!cell.isCollapsed()) return;
-        // }
+        if (cell.getNumStates()==1){
+            endreCelle(cell);
+            if (!cell.isCollapsed()) return;
+        }
         
         cellList.update(cell);
         
@@ -224,8 +233,8 @@ public class TileController {
     
 
     public void draw(){
-        for (int i = 0; i<600/TILESIZE; i++){
-            for (int j = 0; j<1000/TILESIZE; j++){
+        for (int i = 0; i<h; i++){
+            for (int j = 0; j<w; j++){
                 canvasController.drawIMG(grid[i][j]);
             }
         }
