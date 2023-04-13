@@ -1,6 +1,8 @@
 package TileTest;
 
 
+import java.io.IOException;
+
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -16,20 +18,31 @@ public class CanvasController {
     GraphicsContext ctx;
 
     TileController tileController;
-    int TILESIZE = 20;
+    FileSave fileSave;
+    int TILESIZE = 56;
     
 
     @FXML
     void initialize(){
+        fileSave = new FileSave(canvas);
         ctx = canvas.getGraphicsContext2D();
         fill();
         canvas.setOnMouseClicked(e->restart(e));
-        tileController = new TileController(this, TILESIZE);
+        tileController = new TileController(this, (int)canvas.getWidth()/TILESIZE, (int)canvas.getHeight()/TILESIZE);
     }
     
     private void restart(MouseEvent e){
         // fill();
         // tileController = new TileController(this, TILESIZE);
+        if (e.getButton().equals(MouseButton.PRIMARY)){
+            try {
+                fileSave.save();
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            return;
+        }
         Long time = System.nanoTime();
         if (e.getButton().equals(MouseButton.SECONDARY)){
             boolean b = false;
@@ -41,6 +54,7 @@ public class CanvasController {
                 b = tileController.restart();
                 i++;
             }
+            System.out.println(((System.nanoTime()-time)/(int)Math.pow(10, 7))/Math.pow(10, 2));
             tileController.draw();
             System.out.println(((System.nanoTime()-time)/(int)Math.pow(10, 7))/Math.pow(10, 2));
         }
@@ -52,7 +66,7 @@ public class CanvasController {
 
     public void fill() {
         ctx.setFill(Color.DARKGREY);
-        ctx.fillRect(0, 0, 1000, 600);
+        ctx.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
     public void drawIMG(Cell c){
