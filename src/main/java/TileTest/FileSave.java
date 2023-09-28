@@ -44,6 +44,7 @@ public class FileSave {
     }
 
     public void save() throws IOException{
+        ensureFilePath();
         WritableImage writableImage = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
         canvas.snapshot(null, writableImage);
         RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);

@@ -19,7 +19,7 @@ public class CanvasController {
 
     TileController tileController;
     FileSave fileSave;
-    int TILESIZE = 56;
+    int TILESIZE = 23;
     
 
     @FXML
